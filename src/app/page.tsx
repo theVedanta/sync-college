@@ -81,28 +81,28 @@ const students = [
 export default function Home() {
     return (
         <div
-            className={`text-white p-12 min-h-[calc(100vh-${NAV_HEIGHT}px)] flex flex-col`}
+            className={`p-12 text-white min-h-[calc(100vh-${NAV_HEIGHT}px)] flex flex-col`}
         >
-            <div className="fixed top-0 left-0 right-0 h-[30%] -z-10 bg-blu"></div>
-            <h1 className="text-3xl font-bold mb-8">
+            <div className="fixed left-0 right-0 top-0 -z-10 h-[30%] bg-blu"></div>
+            <h1 className="mb-8 text-3xl font-bold">
                 Student health dashboard
             </h1>
 
-            <div className="bg-white text-black rounded-xl p-6 shadow-md flex flex-col h-[calc(100vh-${NAV_HEIGHT}px-8rem)]">
-                <h2 className="text-2xl font-bold mb-4 opacity-75">
+            <div className="flex h-[calc(100vh-${NAV_HEIGHT}px-8rem)] flex-col rounded-xl bg-white p-6 text-black shadow-md">
+                <h2 className="mb-4 text-2xl font-bold opacity-75">
                     All students
                 </h2>
 
                 <div className="relative mb-6">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                     <Input
                         type="text"
                         placeholder="Search Students"
-                        className="pl-10 w-full border border-gray-200 py-5"
+                        className="w-full border border-gray-200 py-5 pl-10"
                     />
                 </div>
 
-                <div className="overflow-auto flex-grow">
+                <div className="flex-grow overflow-auto">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -149,7 +149,7 @@ export default function Home() {
                                         {student.cardiovascular}%
                                     </TableCell>
                                     <TableCell>
-                                        <Button className="bg-blu rounded-full px-8 hover:bg-blue-800">
+                                        <Button className="rounded-full bg-blu px-8 hover:bg-blue-800">
                                             View
                                         </Button>
                                     </TableCell>
@@ -159,7 +159,7 @@ export default function Home() {
                     </Table>
                 </div>
 
-                <div className="flex justify-between items-center mt-10 pt-4 border-t border-muted">
+                <div className="mt-10 flex items-center justify-between border-t border-muted pt-4">
                     <span className="text-muted-foreground">
                         Showing<span className="mx-2">—</span>
                         <span className="text-blu">10 results per page</span>

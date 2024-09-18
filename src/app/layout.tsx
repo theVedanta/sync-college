@@ -19,7 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`antialiased light`}
+                className={`light antialiased`}
                 style={{ fontFamily: "Plus Jakarta Sans Variable, sans-serif" }}
             >
                 <Navbar />

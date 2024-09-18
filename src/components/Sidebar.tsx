@@ -11,7 +11,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className={`bg-white py-4 h-screen fixed left-0 top-0 z-30 transition-all ${isExpanded ? "w-64 shadow-xl" : "w-16"}`}
+            className={`fixed left-0 top-0 z-30 h-screen bg-white py-4 transition-all ${isExpanded ? "w-64 shadow-xl" : "w-16"}`}
             style={{
                 paddingTop: NAV_HEIGHT + 40 + "px",
             }}
@@ -45,7 +45,7 @@ const SidebarItem = ({
             onMouseEnter={() => setIsExpanded(true)}
             onMouseLeave={() => setIsExpanded(false)}
             variant="ghost"
-            className={`w-full py-6 rounded-none text-muted-foreground justify-start hover:bg-blue-200 ${active ? "border-l-4 bg-blue-200 hover:bg-blue-300 text-blu font-bold border-l-blu hover:text-blu" : ""}`}
+            className={`w-full justify-start rounded-none py-6 text-muted-foreground hover:bg-blue-200 ${active ? "border-l-4 border-l-blu bg-blue-200 font-bold text-blu hover:bg-blue-300 hover:text-blu" : ""}`}
         >
             {icon}
 

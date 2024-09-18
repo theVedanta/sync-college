@@ -17,7 +17,7 @@ import { NAV_HEIGHT } from "@/lib/constants";
 const Navbar = () => {
     return (
         <nav
-            className="flex items-center bg-white justify-between px-10 bg-background shadow fixed top-0 left-0 right-0 z-40 w-screen"
+            className="fixed left-0 right-0 top-0 z-40 flex w-screen items-center justify-between bg-background bg-white px-10 shadow"
             style={{
                 height: NAV_HEIGHT + "px",
             }}
@@ -32,11 +32,11 @@ const Navbar = () => {
             </div>
             <div className="flex items-center space-x-4">
                 <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                    <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                     <Input
                         type="text"
                         placeholder="Search"
-                        className="pl-10 w-56 text-xl border-none"
+                        className="w-56 border-none pl-10 text-xl"
                     />
                 </div>
 
