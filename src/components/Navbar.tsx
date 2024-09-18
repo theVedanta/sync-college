@@ -17,7 +17,7 @@ import { NAV_HEIGHT } from "@/lib/constants";
 const Navbar = () => {
     return (
         <nav
-            className="flex items-center bg-white justify-between px-10 bg-background shadow-md fixed top-0 left-0 right-0 z-40 w-screen"
+            className="flex items-center bg-white justify-between px-10 bg-background shadow fixed top-0 left-0 right-0 z-40 w-screen"
             style={{
                 height: NAV_HEIGHT + "px",
             }}

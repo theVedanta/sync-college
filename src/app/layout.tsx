@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import "@fontsource/plus-jakarta-sans";
+import "@fontsource-variable/plus-jakarta-sans";
 import { NAV_HEIGHT } from "@/lib/constants";
 import Sidebar from "@/components/Sidebar";
 
@@ -20,7 +20,7 @@ export default function RootLayout({
         <html lang="en">
             <body
                 className={`antialiased light`}
-                style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
+                style={{ fontFamily: "Plus Jakarta Sans Variable, sans-serif" }}
             >
                 <Navbar />
                 <Sidebar />

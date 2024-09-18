@@ -11,7 +11,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className={`bg-white py-4 h-screen fixed left-0 top-0 z-30 transition-all ${isExpanded ? "w-64" : "w-16"}`}
+            className={`bg-white py-4 h-screen fixed left-0 top-0 z-30 transition-all ${isExpanded ? "w-64 shadow-xl" : "w-16"}`}
             style={{
                 paddingTop: NAV_HEIGHT + 40 + "px",
             }}
