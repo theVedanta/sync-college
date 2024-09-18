@@ -89,14 +89,16 @@ export default function Home() {
             </h1>
 
             <div className="bg-white text-black rounded-xl p-6 shadow-md flex flex-col h-[calc(100vh-${NAV_HEIGHT}px-8rem)]">
-                <h2 className="text-2xl font-semibold mb-4">All students</h2>
+                <h2 className="text-2xl font-bold mb-4 opacity-75">
+                    All students
+                </h2>
 
                 <div className="relative mb-6">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input
                         type="text"
                         placeholder="Search Students"
-                        className="pl-10 w-full border py-6"
+                        className="pl-10 w-full border border-gray-200 py-5"
                     />
                 </div>
 
@@ -147,10 +149,7 @@ export default function Home() {
                                         {student.cardiovascular}%
                                     </TableCell>
                                     <TableCell>
-                                        <Button
-                                            variant="outline"
-                                            className="bg-blu text-white rounded-full px-8 hover:bg-blu/90"
-                                        >
+                                        <Button className="bg-blu rounded-full px-8 hover:bg-blue-800">
                                             View
                                         </Button>
                                     </TableCell>
@@ -160,11 +159,12 @@ export default function Home() {
                     </Table>
                 </div>
 
-                <div className="flex justify-between items-center mt-12">
+                <div className="flex justify-between items-center mt-10 pt-4 border-t border-muted">
                     <span className="text-muted-foreground">
                         Showing<span className="mx-2">—</span>
                         <span className="text-blu">10 results per page</span>
                     </span>
+
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm">
                             First
