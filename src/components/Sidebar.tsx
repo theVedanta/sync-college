@@ -4,10 +4,25 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { NAV_HEIGHT } from "@/lib/constants";
 import { useState } from "react";
+import { GitGraph } from "lucide-react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const iconClassName = "w-6 h-6";
+    const sidebarItems = [
+        {
+            icon: <PersonIcon className={iconClassName} />,
+            text: "Profile",
+            link: "/",
+        },
+        {
+            icon: <GitGraph className={iconClassName} />,
+            text: "Recommendations",
+            link: "/recommendations",
+        },
+    ];
 
     return (
         <div
@@ -16,13 +31,16 @@ const Sidebar = () => {
                 paddingTop: NAV_HEIGHT + 40 + "px",
             }}
         >
-            <SidebarItem
-                setIsExpanded={setIsExpanded}
-                icon={<PersonIcon className={`${iconClassName}`} />}
-                text="Profile"
-                active={true}
-                isExpanded={isExpanded}
-            />
+            {sidebarItems.map((item, i) => (
+                <SidebarItem
+                    key={i}
+                    setIsExpanded={setIsExpanded}
+                    icon={item.icon}
+                    text={item.text}
+                    link={item.link}
+                    isExpanded={isExpanded}
+                />
+            ))}
         </div>
     );
 };
@@ -30,36 +48,45 @@ const Sidebar = () => {
 const SidebarItem = ({
     icon,
     text,
-    active,
+    link,
     isExpanded,
     setIsExpanded,
 }: {
     icon: React.ReactNode;
     text: string;
-    active: boolean;
+    link: string;
     isExpanded: boolean;
     setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    return (
-        <Button
-            onMouseEnter={() => setIsExpanded(true)}
-            onMouseLeave={() => setIsExpanded(false)}
-            variant="ghost"
-            className={`w-full justify-start rounded-none py-6 text-muted-foreground hover:bg-blue-200 ${active ? "border-l-4 border-l-blu bg-blue-200 font-bold text-blu hover:bg-blue-300 hover:text-blu" : ""}`}
-        >
-            {icon}
+    const pathname = usePathname();
+    const isActive = pathname === link;
 
-            <span
-                className="transition-all duration-100"
-                style={{
-                    width: isExpanded ? "auto" : 0,
-                    opacity: isExpanded ? 1 : 0,
-                    marginLeft: isExpanded ? "20px" : 0,
-                }}
+    return (
+        <Link href={link} passHref>
+            <Button
+                onMouseEnter={() => setIsExpanded(true)}
+                onMouseLeave={() => setIsExpanded(false)}
+                variant="ghost"
+                className={`w-full justify-start rounded-none py-6 text-muted-foreground hover:bg-blue-200 ${
+                    isActive
+                        ? "border-l-4 border-l-blu bg-blue-200 font-bold text-blu hover:bg-blue-300 hover:text-blu"
+                        : ""
+                }`}
             >
-                {text}
-            </span>
-        </Button>
+                {icon}
+
+                <span
+                    className="transition-all duration-100"
+                    style={{
+                        width: isExpanded ? "auto" : 0,
+                        opacity: isExpanded ? 1 : 0,
+                        marginLeft: isExpanded ? "20px" : 0,
+                    }}
+                >
+                    {text}
+                </span>
+            </Button>
+        </Link>
     );
 };
 

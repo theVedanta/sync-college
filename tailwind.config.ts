@@ -10,6 +10,7 @@ const config: Config = {
         extend: {
             colors: {
                 blu: "rgb(15, 103, 254)",
+                darkblu: "rgba(0, 23, 63, 1)",
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 card: {
