@@ -31,7 +31,7 @@ export default function RootLayout({
                     }}
                     className="w-screen overflow-x-hidden pl-16"
                 >
-                    {children}
+                    <div className="p-12">{children}</div>
                 </main>
             </body>
         </html>

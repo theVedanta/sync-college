@@ -81,7 +81,7 @@ const students = [
 export default function Home() {
     return (
         <div
-            className={`p-12 text-white min-h-[calc(100vh-${NAV_HEIGHT}px)] flex flex-col`}
+            className={`text-white min-h-[calc(100vh-${NAV_HEIGHT}px)] flex flex-col`}
         >
             <div className="fixed left-0 right-0 top-0 -z-10 h-[30%] bg-blu"></div>
             <h1 className="mb-8 text-3xl font-bold">
