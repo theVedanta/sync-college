@@ -1,4 +1,7 @@
-import Image from "next/image";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, ChevronRight, Dot, Info } from "lucide-react";
@@ -13,11 +16,45 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Loading from "@/components/Loading";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Recommendations = () => {
+    const searchParams = useSearchParams();
+    const email = searchParams.get("email");
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["user", email],
+        queryFn: async () => {
+            if (!email) throw new Error("Email is required");
+            const res = await fetch(
+                `/api/user/email?email=${encodeURIComponent(email)}`
+            );
+
+            if (!res.ok) throw new Error("Failed to fetch user");
+            return res.json();
+        },
+        enabled: !!email,
+    });
+
+    if (isLoading) return <Loading />;
+    if (error) return <div>Error: {error.message}</div>;
+    if (!data) return <div>No user selected</div>;
+
+    const user = data.user;
+    const name =
+        user.onboarding_data &&
+        user.onboarding_data.firstName &&
+        user.onboarding_data.lastName
+            ? user.onboarding_data.firstName +
+              " " +
+              user.onboarding_data.lastName
+            : user.email;
+    const studentId = `S-${Math.floor(100000 + Math.random() * 900000)}`;
+
     return (
         <>
-            <ExportBreadcrumb breadcrumbs={["People", "Ishaan Das"]} />
+            <ExportBreadcrumb breadcrumbs={["People", name]} />
 
             <Tabs defaultValue="overview" className="mb-8">
                 <TabsList className="mb-8">
@@ -41,26 +78,47 @@ const Recommendations = () => {
                             <Card className="flex-grow">
                                 <CardContent className="flex h-full items-center justify-between p-8">
                                     <div className="relative aspect-square h-full">
-                                        <Image
-                                            src="/assets/image.png"
-                                            alt="Ishaan Das"
-                                            fill
-                                            className="rounded-full border-[5px] border-blu object-cover"
-                                        />
+                                        <Avatar className="h-full w-full">
+                                            <AvatarImage alt={name} />
+                                            <AvatarFallback className="text-2xl">
+                                                {name
+                                                    .split(" ")
+                                                    .map((n: string) => n[0])
+                                                    .join("")}
+                                            </AvatarFallback>
+                                        </Avatar>
                                     </div>
 
                                     <div className="ml-10 flex-grow">
                                         <h2 className="text-2xl font-bold">
-                                            Ishaan Das, 20
+                                            {name}
                                         </h2>
                                         <p className="text-gray-500">
-                                            Student ID: N000234210
+                                            Student ID: {studentId}
                                         </p>
-                                        <p className="mt-6 line-clamp-1 flex items-center text-lg text-gray-500">
-                                            ♂ Male <Dot /> 142 Kg <Dot /> 142
-                                            Kg <Dot /> No allergies <Dot /> No
-                                            allergies
-                                        </p>
+                                        <div className="mt-6 flex flex-wrap gap-2 text-sm text-gray-500 sm:text-lg">
+                                            <span>♂ Male</span>
+                                            <Dot className="hidden sm:inline" />
+                                            <span>142 Kg</span>
+                                            <Dot className="hidden sm:inline" />
+                                            <span>180 cm</span>
+                                            <Dot className="hidden sm:inline" />
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger>
+                                                        <span className="cursor-help">
+                                                            No allergies
+                                                        </span>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>
+                                                            No known allergies
+                                                            reported
+                                                        </p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        </div>
                                     </div>
 
                                     <div className="h-full">

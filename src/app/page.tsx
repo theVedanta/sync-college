@@ -16,9 +16,14 @@ import { NAV_HEIGHT } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Loading from "@/components/Loading";
+import Link from "next/link";
 
 type Student = {
     name: string;
+    onboarding_data: {
+        firstName: string;
+        lastName: string;
+    };
     email: string;
     gender: string;
     age: number;
@@ -36,7 +41,9 @@ export default function Home() {
     const { data, isLoading } = useQuery({
         queryKey: ["students", page, userLimit],
         queryFn: async () => {
-            const res = await fetch(`/api?page=${page}&limit=${userLimit}`);
+            const res = await fetch(
+                `/api/user?page=${page}&limit=${userLimit}`
+            );
             return res.json();
         },
     });
@@ -82,77 +89,97 @@ export default function Home() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Student Email</TableHead>
+                                <TableHead>Student Name</TableHead>
+                                <TableHead>Student ID</TableHead>
                                 <TableHead>Gender</TableHead>
                                 <TableHead>Age</TableHead>
                                 <TableHead>Inflammation</TableHead>
                                 <TableHead>Balance</TableHead>
-                                <TableHead>Metabolic Fitness</TableHead>
+                                <TableHead>Metabolism</TableHead>
                                 <TableHead>Cardiovascular</TableHead>
                                 <TableHead></TableHead>
                             </TableRow>
                         </TableHeader>
+
                         <TableBody>
-                            {data.users.map((student: Student, i: number) => (
-                                <TableRow key={i}>
-                                    <TableCell className="flex items-center gap-2">
-                                        <Avatar>
-                                            <AvatarImage
-                                                src="/avatar.png"
-                                                alt={student.email}
-                                            />
-                                            <AvatarFallback>
-                                                {student.email
-                                                    .split(" ")
-                                                    .map((n) => n[0])
-                                                    .join("")}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        {student.email}
-                                    </TableCell>
-                                    <TableCell>
-                                        {
-                                            ["Male", "Female"][
-                                                Math.random() > 0.5 ? 0 : 1
-                                            ]
-                                        }
-                                    </TableCell>
-                                    <TableCell>
-                                        {Math.floor(
-                                            Math.random() * 90
-                                        ).toString()}
-                                    </TableCell>
-                                    <TableCell className="text-green-600">
-                                        {/* {student.inflammation}% */}
-                                        {Math.floor(
-                                            Math.random() * 1100
-                                        ).toString()}
-                                    </TableCell>
-                                    <TableCell className="text-red-600">
-                                        {/* {student.balance}% */}
-                                        {Math.floor(
-                                            Math.random() * 2000
-                                        ).toString()}
-                                    </TableCell>
-                                    <TableCell className="text-green-600">
-                                        {/* {student.metabolicFitness}% */}
-                                        {Math.floor(
-                                            Math.random() * 20
-                                        ).toString()}
-                                    </TableCell>
-                                    <TableCell className="text-red-600">
-                                        {/* {student.cardiovascular}% */}
-                                        {Math.floor(
-                                            Math.random() * 40
-                                        ).toString()}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button className="rounded-full bg-blu px-8 hover:bg-blue-800">
-                                            View
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            {data.users.map((student: Student, i: number) => {
+                                const name =
+                                    student.onboarding_data &&
+                                    student.onboarding_data.firstName &&
+                                    student.onboarding_data.lastName
+                                        ? student.onboarding_data.firstName +
+                                          " " +
+                                          student.onboarding_data.lastName
+                                        : student.email;
+
+                                const studentId = `S-${Math.floor(100000 + Math.random() * 900000)}`;
+
+                                return (
+                                    <TableRow key={i}>
+                                        <TableCell className="flex items-center gap-2">
+                                            <Avatar>
+                                                <AvatarImage
+                                                    src="/avatar.png"
+                                                    alt={name}
+                                                />
+                                                <AvatarFallback>
+                                                    {name
+                                                        .split(" ")
+                                                        .map((n) => n[0])
+                                                        .join("")}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            {name}
+                                        </TableCell>
+                                        <TableCell>{studentId}</TableCell>
+                                        <TableCell>
+                                            {
+                                                ["Male", "Female"][
+                                                    Math.random() > 0.5 ? 0 : 1
+                                                ]
+                                            }
+                                        </TableCell>
+                                        <TableCell>
+                                            {Math.floor(
+                                                Math.random() * 90
+                                            ).toString()}
+                                        </TableCell>
+                                        <TableCell className="text-green-600">
+                                            {/* {student.inflammation}% */}
+                                            {Math.floor(
+                                                Math.random() * 1100
+                                            ).toString()}
+                                        </TableCell>
+                                        <TableCell className="text-red-600">
+                                            {/* {student.balance}% */}
+                                            {Math.floor(
+                                                Math.random() * 2000
+                                            ).toString()}
+                                        </TableCell>
+                                        <TableCell className="text-green-600">
+                                            {/* {student.metabolicFitness}% */}
+                                            {Math.floor(
+                                                Math.random() * 20
+                                            ).toString()}
+                                        </TableCell>
+                                        <TableCell className="text-red-600">
+                                            {/* {student.cardiovascular}% */}
+                                            {Math.floor(
+                                                Math.random() * 40
+                                            ).toString()}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link
+                                                href={`/recommendations?email=${encodeURIComponent(student.email)}`}
+                                            >
+                                                <Button className="rounded-full bg-blu px-8 hover:bg-blue-800">
+                                                    View
+                                                </Button>
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </div>

@@ -5,7 +5,7 @@ const vitalsData = [
     {
         title: "Homocysteine(HCY)",
         subtitle: "Optimal levels",
-        value: 75,
+        value: 10,
         color: "green",
         description:
             "The High Sensitivity C-Reactive Protein (hs-CRP) test measures low levels of inflammation in the blood, which can indicate a higher risk of cardiovascular disease.",
@@ -13,7 +13,7 @@ const vitalsData = [
     {
         title: "Metabolic Fitness",
         subtitle: "Good condition",
-        value: 65,
+        value: 15,
         color: "blue",
         description:
             "Metabolic fitness refers to how well your body processes and uses energy from the food you eat.",
@@ -21,7 +21,7 @@ const vitalsData = [
     {
         title: "Inflammation",
         subtitle: "Slightly elevated",
-        value: 40,
+        value: 12,
         color: "orange",
         description:
             "Chronic inflammation can be a sign of various health issues and may contribute to the development of certain diseases.",
@@ -29,7 +29,7 @@ const vitalsData = [
     {
         title: "Stress Level",
         subtitle: "Moderate",
-        value: 50,
+        value: 10,
         color: "red",
         description:
             "Stress levels can impact overall health and well-being. Monitoring and managing stress is important for maintaining good health.",

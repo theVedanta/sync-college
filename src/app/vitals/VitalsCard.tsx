@@ -35,7 +35,7 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
         for (let i = 1; i <= 6; i++) {
             const randomValue = baseValue + Math.floor(Math.random() * 20) - 10;
             data.push({
-                month: `Month ${i}`,
+                month: `Test ${i}`,
                 value: randomValue,
             });
         }
@@ -83,6 +83,7 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
                             fill={color}
                             fillOpacity={0.3}
                         />
+
                         <ChartLegend content={<ChartLegendContent />} />
                     </AreaChart>
                 </ChartContainer>
