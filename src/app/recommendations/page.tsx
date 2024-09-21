@@ -97,7 +97,7 @@ const Recommendations = () => {
                                         </div>
                                     </div>
 
-                                    <ProgressCircle value={50} color="orange" />
+                                    <ProgressCircle value={67} color="orange" />
                                 </CardContent>
                             </Card>
                         </div>
@@ -119,42 +119,72 @@ const Recommendations = () => {
                         </div>
 
                         <div className="grid grid-cols-4 gap-8">
-                            {[...Array(4)].map((_, i) => (
-                                <Link key={i} href="/vitals">
-                                    <Card className="cursor-pointer transition-all hover:shadow-xl">
-                                        <CardContent className="p-6">
-                                            <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">
-                                                Metabolic Fitness{" "}
-                                                <TooltipProvider
-                                                    delayDuration={0}
+                            {[
+                                "Metabolic Fitness",
+                                "Inflammation",
+                                "Balance",
+                                "Cardiovascular",
+                            ].map((title, i) => {
+                                const value = Math.floor(Math.random() * 100);
+                                const color =
+                                    value < 33
+                                        ? "red"
+                                        : value < 66
+                                          ? "orange"
+                                          : "green";
+
+                                return (
+                                    <Link key={i} href="/vitals">
+                                        <Card className="cursor-pointer transition-all hover:shadow-xl">
+                                            <CardContent className="p-6">
+                                                <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">
+                                                    {title}
+                                                    <TooltipProvider
+                                                        delayDuration={0}
+                                                    >
+                                                        <Tooltip>
+                                                            <TooltipTrigger>
+                                                                <Info className="ml-2 h-6 w-6 text-blu" />
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                <p>
+                                                                    More
+                                                                    information
+                                                                    about{" "}
+                                                                    {title}
+                                                                </p>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                </h3>
+
+                                                <ProgressCircle
+                                                    value={value}
+                                                    color={color}
+                                                />
+
+                                                <p
+                                                    className={`text-center font-semibold ${
+                                                        color === "orange"
+                                                            ? "text-orange-500"
+                                                            : color === "red"
+                                                              ? "text-red-500"
+                                                              : "text-green-500"
+                                                    }`}
                                                 >
-                                                    <Tooltip>
-                                                        <TooltipTrigger>
-                                                            <Info className="ml-2 h-6 w-6 text-blu" />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>
-                                                                More information
-                                                                about Metabolic
-                                                                Fitness
-                                                            </p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            </h3>
-
-                                            <ProgressCircle
-                                                value={50}
-                                                color="orange"
-                                            />
-
-                                            <p className="text-center font-semibold text-orange-600">
-                                                Inflammation levels are optimal.
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ))}
+                                                    {title} levels are{" "}
+                                                    {color === "green"
+                                                        ? "optimal"
+                                                        : color === "orange"
+                                                          ? "moderate"
+                                                          : "concerning"}
+                                                    .
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </TabsContent>

@@ -1,35 +1,55 @@
-import { Progress } from "@/components/ui/progress";
-
 interface ProgressCircleProps {
     value: number;
     color: string;
 }
 
 const ProgressCircle: React.FC<ProgressCircleProps> = ({ value, color }) => {
+    const radius = 56;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (value / 100) * circumference;
+
     return (
         <div className="relative mx-auto mb-4 h-32 w-32">
-            <div className="absolute inset-0">
-                <Progress
-                    value={value}
-                    className={`h-full w-full rounded-full ${
-                        color === "orange"
-                            ? "bg-orange-600"
-                            : color === "green"
-                              ? "bg-green-600"
-                              : color === "red"
-                                ? "bg-red-600"
-                                : color === "blue"
-                                  ? "bg-blue-600"
-                                  : "bg-gray-600" // default color
-                    }`}
-                />
-            </div>
-
-            <div className="absolute inset-2 flex items-center justify-center rounded-full bg-white">
-                <span className="text-3xl font-bold text-muted-foreground">
+            <div className="absolute inset-0 flex items-center justify-center">
+                <span className="flex h-28 w-28 items-center justify-center rounded-full bg-white px-2 py-1 text-3xl font-bold text-muted-foreground">
                     {value}%
                 </span>
             </div>
+
+            <svg className="h-full w-full" viewBox="0 0 120 120">
+                <circle
+                    className="text-muted"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    fill="transparent"
+                    r={radius}
+                    cx="60"
+                    cy="60"
+                />
+                <circle
+                    className={`transition-all duration-300 ease-in-out ${
+                        color === "red"
+                            ? "stroke-red-500"
+                            : color === "orange"
+                              ? "stroke-orange-500"
+                              : color === "green"
+                                ? "stroke-green-500"
+                                : "stroke-blue-500"
+                    }`}
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    fill="transparent"
+                    r={radius}
+                    cx="60"
+                    cy="60"
+                    style={{
+                        strokeDasharray: circumference,
+                        strokeDashoffset: strokeDashoffset,
+                        transform: "rotate(-90deg)",
+                        transformOrigin: "50% 50%",
+                    }}
+                />
+            </svg>
         </div>
     );
 };

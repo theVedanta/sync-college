@@ -30,7 +30,7 @@ const vitalsData = [
         title: "Stress Level",
         subtitle: "Moderate",
         value: 50,
-        color: "yellow",
+        color: "red",
         description:
             "Stress levels can impact overall health and well-being. Monitoring and managing stress is important for maintaining good health.",
     },

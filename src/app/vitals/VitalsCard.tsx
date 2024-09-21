@@ -1,46 +1,56 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+} from "recharts";
 import {
     ChartConfig,
     ChartContainer,
     ChartLegend,
     ChartLegendContent,
-    ChartTooltip,
-    ChartTooltipContent,
 } from "@/components/ui/chart";
-
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-];
-
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig;
 
 interface VitalsCardProps {
     title: string;
     subtitle: string;
     description: string;
+    value: number;
+    color: string;
 }
 
 const VitalsCard: React.FC<VitalsCardProps> = ({
     title,
     subtitle,
     description,
+    value,
+    color,
 }) => {
+    const generateRandomData = (baseValue: number) => {
+        const data = [];
+        for (let i = 1; i <= 6; i++) {
+            const randomValue = baseValue + Math.floor(Math.random() * 20) - 10;
+            data.push({
+                month: `Month ${i}`,
+                value: randomValue,
+            });
+        }
+        return data;
+    };
+
+    const chartData = generateRandomData(value);
+
+    const chartConfig = {
+        value: {
+            label: title,
+            color: color,
+        },
+    } satisfies ChartConfig;
+
     return (
         <Card className="w-full">
             <CardHeader>
@@ -54,50 +64,31 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
                     className="h-[250px] w-full"
                 >
                     <AreaChart
-                        accessibilityLayer
                         data={chartData}
                         margin={{
-                            left: 12,
-                            right: 12,
+                            top: 10,
+                            right: 30,
+                            left: 0,
+                            bottom: 0,
                         }}
                     >
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
-                        />
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent indicator="line" />}
-                        />
-
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                        <XAxis dataKey="month" stroke="#666" />
+                        <YAxis stroke="#666" />
+                        <Tooltip />
                         <Area
-                            dataKey="mobile"
-                            type="natural"
-                            fill="var(--color-mobile)"
-                            fillOpacity={0.4}
-                            stroke="var(--color-mobile)"
-                            stackId="a"
+                            type="monotone"
+                            dataKey="value"
+                            stroke={color}
+                            fill={color}
+                            fillOpacity={0.3}
                         />
-                        <Area
-                            dataKey="desktop"
-                            type="natural"
-                            fill="var(--color-desktop)"
-                            fillOpacity={0.4}
-                            stroke="var(--color-desktop)"
-                            stackId="a"
-                        />
-
                         <ChartLegend content={<ChartLegendContent />} />
                     </AreaChart>
                 </ChartContainer>
 
                 <div className="mt-6">
-                    <h4 className="mb-2 text-xl font-semibold">Haemoglobin</h4>
-                    <p className="text-justify text-sm">{description}</p>
+                    <p className="text-justify">{description}</p>
                 </div>
             </CardContent>
         </Card>
