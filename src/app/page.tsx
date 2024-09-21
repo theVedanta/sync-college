@@ -14,9 +14,8 @@ import {
 import { Search } from "lucide-react";
 import { NAV_HEIGHT } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
-import { BASE_API_URL } from "../../constants";
-import Loading from "@/components/Loading";
 import { useState } from "react";
+import Loading from "@/components/Loading";
 
 type Student = {
     name: string;
@@ -34,6 +33,14 @@ const userLimit = 8;
 export default function Home() {
     const [page, setPage] = useState(1);
 
+    const { data, isLoading } = useQuery({
+        queryKey: ["students", page, userLimit],
+        queryFn: async () => {
+            const res = await fetch(`/api?page=${page}&limit=${userLimit}`);
+            return res.json();
+        },
+    });
+
     const handleNextPage = () => {
         if (data && page < data.totalPages) {
             setPage((prev) => prev + 1);
@@ -45,16 +52,6 @@ export default function Home() {
             setPage((prev) => prev - 1);
         }
     };
-
-    const { data, isLoading } = useQuery({
-        queryKey: ["students", page, userLimit],
-        queryFn: async () => {
-            const res = await fetch(
-                `${BASE_API_URL}/user/all?page=${page}&limit=${userLimit}`
-            );
-            return res.json();
-        },
-    });
 
     if (isLoading) return <Loading />;
 
