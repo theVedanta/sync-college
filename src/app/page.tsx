@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -11,74 +13,51 @@ import {
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
 import { NAV_HEIGHT } from "@/lib/constants";
+import { useQuery } from "@tanstack/react-query";
+import { BASE_API_URL } from "../../constants";
+import Loading from "@/components/Loading";
+import { useState } from "react";
 
-const students = [
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-    {
-        name: "Ishaan Das",
-        gender: "Female",
-        age: 19,
-        inflammation: 56,
-        balance: 56,
-        metabolicFitness: 56,
-        cardiovascular: 56,
-    },
-];
+type Student = {
+    name: string;
+    email: string;
+    gender: string;
+    age: number;
+    inflammation: number;
+    balance: number;
+    metabolicFitness: number;
+    cardiovascular: number;
+};
+
+const userLimit = 8;
 
 export default function Home() {
+    const [page, setPage] = useState(1);
+
+    const handleNextPage = () => {
+        if (data && page < data.totalPages) {
+            setPage((prev) => prev + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage((prev) => prev - 1);
+        }
+    };
+
+    const { data, isLoading } = useQuery({
+        queryKey: ["students", page, userLimit],
+        queryFn: async () => {
+            const res = await fetch(
+                `${BASE_API_URL}/user/all?page=${page}&limit=${userLimit}`
+            );
+            return res.json();
+        },
+    });
+
+    if (isLoading) return <Loading />;
+
     return (
         <div
             className={`text-white min-h-[calc(100vh-${NAV_HEIGHT}px)] flex flex-col`}
@@ -106,7 +85,7 @@ export default function Home() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Student name</TableHead>
+                                <TableHead>Student Email</TableHead>
                                 <TableHead>Gender</TableHead>
                                 <TableHead>Age</TableHead>
                                 <TableHead>Inflammation</TableHead>
@@ -117,36 +96,58 @@ export default function Home() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {students.map((student, index) => (
-                                <TableRow key={index}>
+                            {data.users.map((student: Student, i: number) => (
+                                <TableRow key={i}>
                                     <TableCell className="flex items-center gap-2">
                                         <Avatar>
                                             <AvatarImage
-                                                src="/avatar.jpg"
-                                                alt={student.name}
+                                                src="/avatar.png"
+                                                alt={student.email}
                                             />
                                             <AvatarFallback>
-                                                {student.name
+                                                {student.email
                                                     .split(" ")
                                                     .map((n) => n[0])
                                                     .join("")}
                                             </AvatarFallback>
                                         </Avatar>
-                                        {student.name}
+                                        {student.email}
                                     </TableCell>
-                                    <TableCell>{student.gender}</TableCell>
-                                    <TableCell>{student.age}</TableCell>
+                                    <TableCell>
+                                        {
+                                            ["Male", "Female"][
+                                                Math.random() > 0.5 ? 0 : 1
+                                            ]
+                                        }
+                                    </TableCell>
+                                    <TableCell>
+                                        {Math.floor(
+                                            Math.random() * 90
+                                        ).toString()}
+                                    </TableCell>
                                     <TableCell className="text-green-600">
-                                        {student.inflammation}%
+                                        {/* {student.inflammation}% */}
+                                        {Math.floor(
+                                            Math.random() * 1100
+                                        ).toString()}
                                     </TableCell>
                                     <TableCell className="text-red-600">
-                                        {student.balance}%
+                                        {/* {student.balance}% */}
+                                        {Math.floor(
+                                            Math.random() * 2000
+                                        ).toString()}
                                     </TableCell>
                                     <TableCell className="text-green-600">
-                                        {student.metabolicFitness}%
+                                        {/* {student.metabolicFitness}% */}
+                                        {Math.floor(
+                                            Math.random() * 20
+                                        ).toString()}
                                     </TableCell>
                                     <TableCell className="text-red-600">
-                                        {student.cardiovascular}%
+                                        {/* {student.cardiovascular}% */}
+                                        {Math.floor(
+                                            Math.random() * 40
+                                        ).toString()}
                                     </TableCell>
                                     <TableCell>
                                         <Button className="rounded-full bg-blu px-8 hover:bg-blue-800">
@@ -162,35 +163,100 @@ export default function Home() {
                 <div className="mt-10 flex items-center justify-between border-t border-muted pt-4">
                     <span className="text-muted-foreground">
                         Showing<span className="mx-2">—</span>
-                        <span className="text-blu">10 results per page</span>
+                        <span className="text-blu">8 results per page</span>
                     </span>
 
                     <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button
+                            onClick={() => setPage(1)}
+                            variant="outline"
+                            size="sm"
+                            disabled={page === 1}
+                        >
                             First
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button
+                            onClick={handlePrevPage}
+                            variant="outline"
+                            size="sm"
+                            disabled={page === 1}
+                        >
                             Prev
                         </Button>
-                        <Button variant="outline" size="sm">
-                            1
-                        </Button>
-                        <Button variant="outline" size="sm">
-                            2
-                        </Button>
-                        <Button variant="outline" size="sm">
-                            3
-                        </Button>
-                        <Button variant="outline" size="sm">
-                            4
-                        </Button>
-                        <Button variant="outline" size="sm">
-                            5
-                        </Button>
-                        <Button variant="outline" size="sm">
+
+                        {(() => {
+                            const pageNumbers = [];
+                            const totalPages = data.totalPages;
+                            const currentPage = page;
+                            const maxVisiblePages = 5;
+
+                            if (totalPages <= maxVisiblePages) {
+                                for (let i = 1; i <= totalPages; i++) {
+                                    pageNumbers.push(i);
+                                }
+                            } else {
+                                if (currentPage <= 3) {
+                                    for (let i = 1; i <= 4; i++) {
+                                        pageNumbers.push(i);
+                                    }
+                                    pageNumbers.push("...");
+                                    pageNumbers.push(totalPages);
+                                } else if (currentPage >= totalPages - 2) {
+                                    pageNumbers.push(1);
+                                    pageNumbers.push("...");
+                                    for (
+                                        let i = totalPages - 3;
+                                        i <= totalPages;
+                                        i++
+                                    ) {
+                                        pageNumbers.push(i);
+                                    }
+                                } else {
+                                    pageNumbers.push(1);
+                                    pageNumbers.push("...");
+                                    for (
+                                        let i = currentPage - 1;
+                                        i <= currentPage + 1;
+                                        i++
+                                    ) {
+                                        pageNumbers.push(i);
+                                    }
+                                    pageNumbers.push("...");
+                                    pageNumbers.push(totalPages);
+                                }
+                            }
+
+                            return pageNumbers.map((pageNum, index) => (
+                                <Button
+                                    key={index}
+                                    onClick={() =>
+                                        pageNum !== "..." && setPage(pageNum)
+                                    }
+                                    variant={
+                                        page === pageNum ? "default" : "outline"
+                                    }
+                                    size="sm"
+                                    disabled={pageNum === "..."}
+                                >
+                                    {pageNum}
+                                </Button>
+                            ));
+                        })()}
+
+                        <Button
+                            onClick={handleNextPage}
+                            variant="outline"
+                            size="sm"
+                            disabled={page === data.totalPages}
+                        >
                             Next
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button
+                            onClick={() => setPage(data.totalPages)}
+                            variant="outline"
+                            size="sm"
+                            disabled={page === data.totalPages}
+                        >
                             Last
                         </Button>
                     </div>

@@ -67,7 +67,7 @@ const SidebarItem = ({
                 onMouseEnter={() => setIsExpanded(true)}
                 onMouseLeave={() => setIsExpanded(false)}
                 variant="ghost"
-                className={`w-full justify-start rounded-none py-6 text-muted-foreground hover:bg-blue-200 ${
+                className={`w-full justify-start rounded-none py-6 text-muted-foreground hover:bg-blue-200 hover:text-muted-foreground ${
                     isActive
                         ? "border-l-4 border-l-blu bg-blue-200 font-bold text-blu hover:bg-blue-300 hover:text-blu"
                         : ""

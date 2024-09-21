@@ -14,7 +14,7 @@ interface ExportBreadcrumbProps {
 }
 
 const ExportBreadcrumb = ({ breadcrumbs }: ExportBreadcrumbProps) => (
-    <div className="o-4 mb-8 flex items-center justify-between rounded-md bg-white p-6 shadow">
+    <div className="o-4 mb-8 flex items-center justify-between rounded-lg bg-white p-6 shadow">
         <Breadcrumb>
             <BreadcrumbList>
                 {breadcrumbs.map((crumb, index) => (

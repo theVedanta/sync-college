@@ -1,43 +1,23 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ChevronRight, Dot, UploadCloud } from "lucide-react";
+import { Calendar, ChevronRight, Dot, Info } from "lucide-react";
 import { CustomIcon } from "@/components/CustomIcon";
 import ProgressCircle from "./ProgressCircle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import ExportBreadcrumb from "@/components/ExportBreadcrumb";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Recommendations = () => {
     return (
         <>
-            <div className="o-4 mb-8 flex items-center justify-between rounded-md bg-white p-6 shadow">
-                <Breadcrumb>
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <BreadcrumbPage className="font-bold text-blu">
-                                People
-                            </BreadcrumbPage>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage className="text-gray-500">
-                                Ishaan Das
-                            </BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-
-                <Button>
-                    <UploadCloud className="mr-2 h-4 w-4" /> Export report
-                </Button>
-            </div>
+            <ExportBreadcrumb breadcrumbs={["People", "Ishaan Das"]} />
 
             <Tabs defaultValue="overview" className="mb-8">
                 <TabsList className="mb-8">
@@ -69,7 +49,7 @@ const Recommendations = () => {
                                         />
                                     </div>
 
-                                    <div className="ml-10">
+                                    <div className="ml-10 flex-grow">
                                         <h2 className="text-2xl font-bold">
                                             Ishaan Das, 20
                                         </h2>
@@ -83,12 +63,14 @@ const Recommendations = () => {
                                         </p>
                                     </div>
 
-                                    <Button className="ml-auto">
-                                        View full profile{" "}
-                                        <CustomIcon>
-                                            <ChevronRight />
-                                        </CustomIcon>
-                                    </Button>
+                                    <div className="h-full">
+                                        <Button className="ml-auto">
+                                            View full profile{" "}
+                                            <CustomIcon>
+                                                <ChevronRight />
+                                            </CustomIcon>
+                                        </Button>
+                                    </div>
                                 </CardContent>
                             </Card>
 
@@ -141,8 +123,24 @@ const Recommendations = () => {
                                 <Link key={i} href="/vitals">
                                     <Card className="cursor-pointer transition-all hover:shadow-xl">
                                         <CardContent className="p-6">
-                                            <h3 className="mb-4 text-lg font-semibold text-darkblu">
-                                                Metabolic Fitness
+                                            <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">
+                                                Metabolic Fitness{" "}
+                                                <TooltipProvider
+                                                    delayDuration={0}
+                                                >
+                                                    <Tooltip>
+                                                        <TooltipTrigger>
+                                                            <Info className="ml-2 h-6 w-6 text-blu" />
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>
+                                                                More information
+                                                                about Metabolic
+                                                                Fitness
+                                                            </p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
                                             </h3>
 
                                             <ProgressCircle

@@ -13,31 +13,20 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({ value, color }) => {
                     value={value}
                     className={`h-full w-full rounded-full ${
                         color === "orange"
-                            ? "bg-orange-500"
+                            ? "bg-orange-600"
                             : color === "green"
-                              ? "bg-green-500"
+                              ? "bg-green-600"
                               : color === "red"
-                                ? "bg-red-500"
+                                ? "bg-red-600"
                                 : color === "blue"
-                                  ? "bg-blue-500"
-                                  : "bg-gray-500" // default color
+                                  ? "bg-blue-600"
+                                  : "bg-gray-600" // default color
                     }`}
                 />
             </div>
+
             <div className="absolute inset-2 flex items-center justify-center rounded-full bg-white">
-                <span
-                    className={`text-3xl font-bold ${
-                        color === "orange"
-                            ? "text-orange-600"
-                            : color === "green"
-                              ? "text-green-600"
-                              : color === "red"
-                                ? "text-red-600"
-                                : color === "blue"
-                                  ? "text-blue-600"
-                                  : "text-gray-600" // default color
-                    }`}
-                >
+                <span className="text-3xl font-bold text-muted-foreground">
                     {value}%
                 </span>
             </div>
