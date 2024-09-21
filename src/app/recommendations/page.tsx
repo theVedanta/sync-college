@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/tooltip";
 import Loading from "@/components/Loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Suspense } from "react";
 
-const Recommendations = () => {
+const RecommendationsContent = () => {
     const searchParams = useSearchParams();
     const email = searchParams.get("email");
 
@@ -252,6 +253,14 @@ const Recommendations = () => {
                 </TabsContent>
             </Tabs>
         </>
+    );
+};
+
+const Recommendations = () => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <RecommendationsContent />
+        </Suspense>
     );
 };
 
