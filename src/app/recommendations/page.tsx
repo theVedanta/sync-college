@@ -27,15 +27,14 @@ const RecommendationsContent = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["user", email],
         queryFn: async () => {
-            if (!email) throw new Error("Email is required");
             const res = await fetch(
-                `/api/user/email?email=${encodeURIComponent(email)}`
+                `/api/user/email?email=${encodeURIComponent(email ? email : "vedanta1412@gmail.com")}`
             );
 
             if (!res.ok) throw new Error("Failed to fetch user");
             return res.json();
         },
-        enabled: !!email,
+        // enabled: !!email,
     });
 
     if (isLoading) return <Loading />;
