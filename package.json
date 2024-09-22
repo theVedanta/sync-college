@@ -10,6 +10,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.0.1",
     "@fontsource-variable/plus-jakarta-sans": "^5.1.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -36,6 +37,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.3.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.441.0",
     "mongoose": "^8.6.3",
     "next": "14.2.11",
@@ -51,6 +53,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

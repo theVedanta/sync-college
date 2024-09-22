@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
-import User from "../User";
+import { faker } from "@faker-js/faker";
+
+const generateFakeUsers = (count: number) => {
+    return Array.from({ length: count }, () => ({
+        email: faker.internet.email(),
+        onboarding_data: {
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+        },
+    }));
+};
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -8,12 +18,14 @@ export async function GET(request: Request) {
     const skip = (page - 1) * limit;
 
     try {
-        const totalUsers = await User.countDocuments();
-        const allUsers = await User.find().skip(skip).limit(limit);
+        const totalUsers = 75;
+        const fakeUsers = generateFakeUsers(totalUsers);
+
+        const paginatedUsers = fakeUsers.slice(skip, skip + limit);
 
         return NextResponse.json({
             success: true,
-            users: allUsers,
+            users: paginatedUsers,
             currentPage: page,
             totalPages: Math.ceil(totalUsers / limit),
             totalUsers,

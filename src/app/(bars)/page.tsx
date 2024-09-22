@@ -49,6 +49,7 @@ export default function Home() {
             const res = await fetch(
                 `/api/user?page=${page}&limit=${userLimit}`
             );
+
             return res.json();
         },
     });
@@ -88,6 +89,7 @@ export default function Home() {
                             <TableRow>
                                 <TableHead>Student Name</TableHead>
                                 <TableHead>Student ID</TableHead>
+                                <TableHead>Student Email</TableHead>
                                 <TableHead>Gender</TableHead>
                                 <TableHead>Age</TableHead>
                                 <TableHead>Inflammation</TableHead>
@@ -129,6 +131,7 @@ export default function Home() {
                                             {name}
                                         </TableCell>
                                         <TableCell>{studentId}</TableCell>
+                                        <TableCell>{student.email}</TableCell>
                                         <TableCell>
                                             {
                                                 ["Male", "Female"][
