@@ -4,16 +4,13 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { NAV_HEIGHT } from "@/lib/constants";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { redirect } from "next/navigation";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-    const { data: session } = useSession();
-    const router = useRouter();
+    const { status } = useSession();
 
-    if (!session) {
-        router.push("/auth");
-        return null;
+    if (status === "unauthenticated") {
+        redirect("/auth");
     }
 
     return (
@@ -32,4 +29,5 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </>
     );
 };
+
 export default Layout;

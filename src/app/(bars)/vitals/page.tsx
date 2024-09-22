@@ -42,7 +42,7 @@ const Vitals = () => {
             <ExportBreadcrumb
                 breadcrumbs={{
                     People: "/",
-                    Ishaan: "/student",
+                    "John Doe": "/student",
                     Vitals: "/student/vitals",
                 }}
             />
