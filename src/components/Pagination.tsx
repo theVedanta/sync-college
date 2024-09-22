@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 
-const DashboardPagination = ({
+const Pagination = ({
     setPage,
     page,
     totalPages,
@@ -111,4 +111,4 @@ const DashboardPagination = ({
         </div>
     );
 };
-export default DashboardPagination;
+export default Pagination;

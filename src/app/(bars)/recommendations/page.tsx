@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ChevronRight, Dot, Info } from "lucide-react";
+import { Calendar, ChevronRight, Dot, Info, Mail } from "lucide-react";
 import { CustomIcon } from "@/components/CustomIcon";
 import ProgressCircle from "./ProgressCircle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,7 +54,12 @@ const RecommendationsContent = () => {
 
     return (
         <>
-            <ExportBreadcrumb breadcrumbs={["People", name]} />
+            <ExportBreadcrumb
+                breadcrumbs={{
+                    People: "/",
+                    [name]: `/recommendations?email=${user.email}`,
+                }}
+            />
 
             <Tabs defaultValue="overview" className="mb-8">
                 <TabsList className="mb-8">
@@ -90,13 +95,22 @@ const RecommendationsContent = () => {
                                     </div>
 
                                     <div className="ml-10 flex-grow">
-                                        <h2 className="text-2xl font-bold">
-                                            {name}
-                                        </h2>
-                                        <p className="text-gray-500">
+                                        <div className="flex items-center gap-5">
+                                            <h2 className="text-2xl font-bold">
+                                                {name}
+                                            </h2>
+
+                                            <p className="flex items-center text-gray-600">
+                                                <CustomIcon>
+                                                    <Mail />
+                                                </CustomIcon>{" "}
+                                                {user.email}
+                                            </p>
+                                        </div>
+                                        <p className="text-gray-600">
                                             Student ID: {studentId}
                                         </p>
-                                        <div className="mt-6 flex flex-wrap gap-2 text-sm text-gray-500 sm:text-lg">
+                                        <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-gray-600 sm:text-lg">
                                             <span>♂ Male</span>
                                             <Dot className="hidden sm:inline" />
                                             <span>142 Kg</span>
@@ -104,7 +118,7 @@ const RecommendationsContent = () => {
                                             <span>180 cm</span>
                                             <Dot className="hidden sm:inline" />
                                             <TooltipProvider>
-                                                <Tooltip>
+                                                <Tooltip delayDuration={0}>
                                                     <TooltipTrigger>
                                                         <span className="cursor-help">
                                                             No allergies

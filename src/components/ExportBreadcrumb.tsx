@@ -6,31 +6,48 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
+    BreadcrumbLink,
 } from "@/components/ui/breadcrumb";
 import React from "react";
 
 interface ExportBreadcrumbProps {
-    breadcrumbs: string[];
+    breadcrumbs: {
+        [title: string]: string;
+    };
 }
 
 const ExportBreadcrumb = ({ breadcrumbs }: ExportBreadcrumbProps) => (
     <div className="o-4 mb-8 flex items-center justify-between rounded-lg bg-white p-6 shadow">
         <Breadcrumb>
             <BreadcrumbList>
-                {breadcrumbs.map((crumb, index) => (
+                {Object.entries(breadcrumbs).map(([title, href], index) => (
                     <React.Fragment key={index}>
                         <BreadcrumbItem>
-                            <BreadcrumbPage
-                                className={
-                                    index === 0
-                                        ? "font-bold text-blu"
-                                        : "text-gray-500"
-                                }
-                            >
-                                {crumb}
-                            </BreadcrumbPage>
+                            {index ===
+                            Object.entries(breadcrumbs).length - 1 ? (
+                                <BreadcrumbPage
+                                    className={
+                                        index === 0
+                                            ? "font-bold text-blu"
+                                            : "text-gray-500"
+                                    }
+                                >
+                                    {title}
+                                </BreadcrumbPage>
+                            ) : (
+                                <BreadcrumbLink
+                                    href={href}
+                                    className={
+                                        index === 0
+                                            ? "font-bold text-blu"
+                                            : "text-gray-500"
+                                    }
+                                >
+                                    {title}
+                                </BreadcrumbLink>
+                            )}
                         </BreadcrumbItem>
-                        {index < breadcrumbs.length - 1 && (
+                        {index < Object.entries(breadcrumbs).length - 1 && (
                             <BreadcrumbSeparator />
                         )}
                     </React.Fragment>

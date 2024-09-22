@@ -17,7 +17,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import DashboardPagination from "@/components/DashboardPagination";
+import Pagination from "@/components/Pagination";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Student = {
     name: string;
@@ -38,6 +40,8 @@ const userLimit = 8;
 
 export default function Home() {
     const [page, setPage] = useState(1);
+    const { data: session } = useSession();
+    const router = useRouter();
 
     const { data, isLoading } = useQuery({
         queryKey: ["students", page, userLimit],
@@ -49,6 +53,10 @@ export default function Home() {
         },
     });
 
+    if (!session) {
+        router.push("/auth");
+        return null;
+    }
     if (isLoading) return <Loading />;
 
     return (
@@ -179,7 +187,7 @@ export default function Home() {
                         <span className="text-blu">8 results per page</span>
                     </span>
 
-                    <DashboardPagination
+                    <Pagination
                         page={page}
                         setPage={setPage}
                         totalPages={data.totalPages}
