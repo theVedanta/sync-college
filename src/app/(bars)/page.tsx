@@ -18,8 +18,6 @@ import { useState } from "react";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 type Student = {
     name: string;
@@ -40,8 +38,6 @@ const userLimit = 8;
 
 export default function Home() {
     const [page, setPage] = useState(1);
-    const { data: session } = useSession();
-    const router = useRouter();
 
     const { data, isLoading } = useQuery({
         queryKey: ["students", page, userLimit],
@@ -54,10 +50,6 @@ export default function Home() {
         },
     });
 
-    if (!session) {
-        router.push("/auth");
-        return null;
-    }
     if (isLoading) return <Loading />;
 
     return (
@@ -170,7 +162,7 @@ export default function Home() {
                                         </TableCell>
                                         <TableCell>
                                             <Link
-                                                href={`/recommendations?email=${encodeURIComponent(student.email)}`}
+                                                href={`/student?email=${encodeURIComponent(student.email)}`}
                                             >
                                                 <Button className="rounded-full bg-blu px-8 hover:bg-blue-800">
                                                     View

@@ -4,7 +4,6 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { NAV_HEIGHT } from "@/lib/constants";
 import { useState } from "react";
-import { GitGraph } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -14,13 +13,8 @@ const Sidebar = () => {
     const sidebarItems = [
         {
             icon: <PersonIcon className={iconClassName} />,
-            text: "Profile",
+            text: "Students",
             link: "/",
-        },
-        {
-            icon: <GitGraph className={iconClassName} />,
-            text: "Recommendations",
-            link: "/recommendations",
         },
     ];
 

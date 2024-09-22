@@ -1,9 +1,21 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { NAV_HEIGHT } from "@/lib/constants";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
+    const { data: session } = useSession();
+    const router = useRouter();
+
+    if (!session) {
+        router.push("/auth");
+        return null;
+    }
+
     return (
         <>
             <Navbar />
@@ -20,4 +32,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         </>
     );
 };
-export default layout;
+export default Layout;

@@ -3,6 +3,7 @@ import "./globals.css";
 import "@fontsource-variable/plus-jakarta-sans";
 import React from "react";
 import Provider from "./Provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
     title: "JustSync.ai",
@@ -22,6 +23,7 @@ export default function RootLayout({
                 style={{ fontFamily: "Plus Jakarta Sans Variable, sans-serif" }}
             >
                 <Provider>{children}</Provider>
+                <Toaster />
             </body>
         </html>
     );

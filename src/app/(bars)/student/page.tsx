@@ -1,6 +1,5 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,37 +18,49 @@ import {
 import Loading from "@/components/Loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Suspense } from "react";
+import { faker } from "@faker-js/faker";
+import { useState, useEffect } from "react";
 
 const RecommendationsContent = () => {
     const searchParams = useSearchParams();
-    const email = searchParams.get("email");
+    const userEmail = searchParams.get("email") || "vedanta1412@gmail.com";
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["user", email],
-        queryFn: async () => {
-            const res = await fetch(
-                `/api/user/email?email=${encodeURIComponent(email ? email : "vedanta1412@gmail.com")}`
+    const [user, setUser] = useState<{ email: string; name: string } | null>(
+        null
+    );
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<null | Error>(null);
+
+    useEffect(() => {
+        const generateFakeUser = (email: string) => {
+            const seed = email.split("@")[0];
+            faker.seed(
+                seed
+                    .split("")
+                    .reduce((acc, char) => acc + char.charCodeAt(0), 0)
             );
 
-            if (!res.ok) throw new Error("Failed to fetch user");
-            return res.json();
-        },
-        // enabled: !!email,
-    });
+            return {
+                email: email,
+                name: faker.person.fullName(),
+            };
+        };
+
+        try {
+            const fakeUser = generateFakeUser(userEmail);
+
+            setUser(fakeUser);
+            setIsLoading(false);
+        } catch (err) {
+            setError(err as Error);
+            setIsLoading(false);
+        }
+    }, [userEmail]);
 
     if (isLoading) return <Loading />;
     if (error) return <div>Error: {error.message}</div>;
-    if (!data) return <div>No user selected</div>;
+    if (!user) return <div>No user selected</div>;
 
-    const user = data.user;
-    const name =
-        user.onboarding_data &&
-        user.onboarding_data.firstName &&
-        user.onboarding_data.lastName
-            ? user.onboarding_data.firstName +
-              " " +
-              user.onboarding_data.lastName
-            : user.email;
     const studentId = `S-${Math.floor(100000 + Math.random() * 900000)}`;
 
     return (
@@ -57,7 +68,7 @@ const RecommendationsContent = () => {
             <ExportBreadcrumb
                 breadcrumbs={{
                     People: "/",
-                    [name]: `/recommendations?email=${user.email}`,
+                    [user.name]: `/student?email=${user.email}`,
                 }}
             />
 
@@ -84,9 +95,9 @@ const RecommendationsContent = () => {
                                 <CardContent className="flex h-full items-center justify-between p-8">
                                     <div className="relative aspect-square h-full">
                                         <Avatar className="h-full w-full">
-                                            <AvatarImage alt={name} />
+                                            <AvatarImage alt={user.name} />
                                             <AvatarFallback className="text-2xl">
-                                                {name
+                                                {user.name
                                                     .split(" ")
                                                     .map((n: string) => n[0])
                                                     .join("")}
@@ -97,7 +108,7 @@ const RecommendationsContent = () => {
                                     <div className="ml-10 flex-grow">
                                         <div className="flex items-center gap-5">
                                             <h2 className="text-2xl font-bold">
-                                                {name}
+                                                {user.name}
                                             </h2>
 
                                             <p className="flex items-center text-gray-600">

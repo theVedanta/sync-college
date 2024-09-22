@@ -20,7 +20,7 @@ const vitalsData = [
     },
     {
         title: "Inflammation",
-        subtitle: "Slightly elevated",
+        subtitle: "Moderate",
         value: 12,
         color: "orange",
         description:
@@ -28,7 +28,7 @@ const vitalsData = [
     },
     {
         title: "Stress Level",
-        subtitle: "Moderate",
+        subtitle: "Slightly elevated",
         value: 10,
         color: "red",
         description:
@@ -42,8 +42,8 @@ const Vitals = () => {
             <ExportBreadcrumb
                 breadcrumbs={{
                     People: "/",
-                    Ishaan: "/recommendations",
-                    Vitals: "/recommendations/vitals",
+                    Ishaan: "/student",
+                    Vitals: "/student/vitals",
                 }}
             />
 
