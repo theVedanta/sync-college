@@ -9,7 +9,7 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({ value, color }) => {
     const strokeDashoffset = circumference - (value / 100) * circumference;
 
     return (
-        <div className="relative mx-auto mb-4 h-32 w-32">
+        <div className="relative mx-auto h-32 w-32">
             <div className="absolute inset-0 flex items-center justify-center">
                 <span className="flex h-28 w-28 items-center justify-center rounded-full bg-white px-2 py-1 text-3xl font-bold text-muted-foreground">
                     {value}%

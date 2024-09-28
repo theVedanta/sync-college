@@ -11,8 +11,8 @@ import {
 import {
     ChartConfig,
     ChartContainer,
-    ChartLegend,
-    ChartLegendContent,
+    // ChartLegend,
+    // ChartLegendContent,
 } from "@/components/ui/chart";
 
 interface VitalsCardProps {
@@ -26,7 +26,7 @@ interface VitalsCardProps {
 const VitalsCard: React.FC<VitalsCardProps> = ({
     title,
     subtitle,
-    description,
+    // description,
     value,
     color,
 }) => {
@@ -84,13 +84,13 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
                             fillOpacity={0.3}
                         />
 
-                        <ChartLegend content={<ChartLegendContent />} />
+                        {/* <ChartLegend content={<ChartLegendContent />} /> */}
                     </AreaChart>
                 </ChartContainer>
 
-                <div className="mt-6">
+                {/* <div className="mt-6">
                     <p className="text-justify">{description}</p>
-                </div>
+                </div> */}
             </CardContent>
         </Card>
     );

@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import ExportBreadcrumb from "@/components/ExportBreadcrumb";
 import VitalsCard from "./VitalsCard";
 import Loading from "@/components/Loading";
+import { Card, CardContent } from "@/components/ui/card";
+import ProgressCircle from "../student/ProgressCircle";
 
 interface ReportItem {
     name: string;
@@ -20,17 +22,7 @@ interface VitalData {
 }
 
 const getRandomColor = () => {
-    const colors = [
-        "green",
-        "blue",
-        "orange",
-        "red",
-        "purple",
-        "indigo",
-        "teal",
-        "amber",
-        "gray",
-    ];
+    const colors = ["green", "blue", "orange", "red", "purple", "teal", "gray"];
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
@@ -83,6 +75,35 @@ const Vitals = () => {
                     Vitals: "/student/vitals",
                 }}
             />
+
+            <Card className="w-full">
+                <CardContent className="flex items-center justify-start !p-10">
+                    <div className="flex-grow">
+                        <ProgressCircle value={67} color="orange" />
+                    </div>
+
+                    <div className="ml-10">
+                        <h2 className="text-2xl font-bold">
+                            Metabolic Fitness
+                        </h2>
+                        <h4 className="text-xl font-semibold text-orange-500">
+                            Ishaan&apos; levels are optimal.
+                        </h4>
+
+                        <p className="mt-4 text-gray-600">
+                            Id nostrud tempor voluptate commodo mollit qui.
+                            Mollit id id veniam incididunt. Exercitation nisi
+                            magna cupidatat eu irure. Labore commodo officia
+                            eiusmod. Sit consequat amet ex officia et anim ea
+                            mollit enim. Exercitation dolor eu magna labore sint
+                            fugiat nisi nulla sint tempor reprehenderit Lorem
+                            mollit eiusmod incididunt. Commodo voluptate aute
+                            nulla sint labore excepteur dolore tempor culpa
+                            consectetur ea.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
 
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
                 {vitalsData?.map((vital, index) => (

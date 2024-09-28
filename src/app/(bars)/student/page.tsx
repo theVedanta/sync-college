@@ -218,7 +218,7 @@ const RecommendationsContent = () => {
 
                                 return (
                                     <Link key={i} href="/vitals">
-                                        <Card className="cursor-pointer transition-all hover:shadow-xl">
+                                        <Card className="h-full cursor-pointer transition-all hover:shadow-xl">
                                             <CardContent className="p-6">
                                                 <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">
                                                     {title}
