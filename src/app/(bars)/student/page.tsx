@@ -180,7 +180,10 @@ const RecommendationsContent = () => {
                                         </div>
                                     </div>
 
-                                    <ProgressCircle value={67} color="orange" />
+                                    <ProgressCircle
+                                        value={Math.ceil(Math.random() * 100)}
+                                        color="orange"
+                                    />
                                 </CardContent>
                             </Card>
                         </div>
@@ -217,7 +220,7 @@ const RecommendationsContent = () => {
                                           : "green";
 
                                 return (
-                                    <Link key={i} href="/vitals">
+                                    <Link key={i} href={`/vitals/${title}`}>
                                         <Card className="h-full cursor-pointer transition-all hover:shadow-xl">
                                             <CardContent className="p-6">
                                                 <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">

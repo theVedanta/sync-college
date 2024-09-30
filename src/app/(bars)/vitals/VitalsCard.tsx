@@ -21,14 +21,15 @@ interface VitalsCardProps {
     description: string;
     value: number;
     color: string;
+    unit: string; // Added unit property
 }
 
 const VitalsCard: React.FC<VitalsCardProps> = ({
     title,
     subtitle,
-    // description,
     value,
     color,
+    unit, // Destructure unit
 }) => {
     const generateRandomData = (baseValue: number) => {
         const data = [];
@@ -36,7 +37,7 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
             const randomValue = baseValue + Math.floor(Math.random() * 20) - 10;
             data.push({
                 month: `Test ${i}`,
-                value: randomValue,
+                value: Math.floor(randomValue),
             });
         }
         return data;
@@ -68,13 +69,17 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
                         margin={{
                             top: 10,
                             right: 30,
-                            left: 0,
+                            left: 25, // Increased left margin for Y Axis
                             bottom: 0,
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                        <XAxis dataKey="month" stroke="#666" />
-                        <YAxis stroke="#666" />
+                        <XAxis dataKey="test" stroke="#666" />
+                        <YAxis
+                            stroke="#666"
+                            tickFormatter={(value) => `${value}${unit}`}
+                        />
+                        {/* Added unit to Y Axis */}
                         <Tooltip />
                         <Area
                             type="monotone"
@@ -83,14 +88,8 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
                             fill={color}
                             fillOpacity={0.3}
                         />
-
-                        {/* <ChartLegend content={<ChartLegendContent />} /> */}
                     </AreaChart>
                 </ChartContainer>
-
-                {/* <div className="mt-6">
-                    <p className="text-justify">{description}</p>
-                </div> */}
             </CardContent>
         </Card>
     );

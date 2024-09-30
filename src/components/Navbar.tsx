@@ -27,7 +27,7 @@ const Navbar = () => {
         >
             <div className="flex items-center">
                 <Image
-                    src="/assets/sync-logo.png"
+                    src="/assets/babson-logo.png"
                     alt="Sync Logo"
                     width={100}
                     height={32}

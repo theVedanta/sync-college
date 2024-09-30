@@ -12,6 +12,7 @@ interface Biomarker {
     shortLabel: string;
     result: number | null;
     description?: string;
+    unit: string;
 }
 
 interface ReportData {
@@ -37,15 +38,11 @@ export async function GET() {
             .report;
 
         const report: ReportItem[] = [
-            ...reportData.axes.map((axis) => ({
-                result: axis.result,
-                name: axis.axis,
-                description: axis.description,
-            })),
             ...reportData.biomarker.map((biomarker) => ({
                 result: biomarker.result,
                 name: biomarker.shortLabel,
                 description: biomarker.description || "",
+                unit: biomarker.unit,
             })),
         ];
 
