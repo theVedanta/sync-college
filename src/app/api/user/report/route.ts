@@ -13,6 +13,7 @@ interface Biomarker {
     result: number | null;
     description?: string;
     unit: string;
+    parent: string[]; // Added parent field
 }
 
 interface ReportData {
@@ -24,9 +25,13 @@ interface ReportItem {
     result: number | null;
     name: string;
     description: string;
+    unit: string; // Added unit field
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const axisQuery = searchParams.get("axis");
+
     try {
         const response = await fetch(
             "https://sync-app-420807.uc.r.appspot.com/user/getKitReport?token=AZ8BUVWXj5wytC7p45C3AMPBBXA9AdHTcet"
@@ -37,14 +42,14 @@ export async function GET() {
         const reportData = ((await response.json()) as { report: ReportData })
             .report;
 
-        const report: ReportItem[] = [
-            ...reportData.biomarker.map((biomarker) => ({
+        const report: ReportItem[] = reportData.biomarker
+            .filter((biomarker) => biomarker.parent.includes(axisQuery || "")) // Filter biomarkers by parent field
+            .map((biomarker) => ({
                 result: biomarker.result,
                 name: biomarker.shortLabel,
                 description: biomarker.description || "",
                 unit: biomarker.unit,
-            })),
-        ];
+            }));
 
         return NextResponse.json({ report });
     } catch (error) {

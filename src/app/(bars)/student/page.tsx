@@ -250,7 +250,7 @@ const RecommendationsContent = () => {
                                                 />
 
                                                 <p
-                                                    className={`text-center font-semibold ${
+                                                    className={`mt-4 text-center font-semibold ${
                                                         color === "orange"
                                                             ? "text-orange-500"
                                                             : color === "red"

@@ -43,8 +43,8 @@ const getSubtitle = (result: number | null): string => {
     return "Needs improvement";
 };
 
-const fetchVitalsData = async (): Promise<VitalData[]> => {
-    const response = await fetch(`/api/user/report`);
+const fetchVitalsData = async (vital: string): Promise<VitalData[]> => {
+    const response = await fetch(`/api/user/report?axis=${vital}`);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -69,7 +69,7 @@ const Vitals = ({ params }: { params: { vital: string } }) => {
         error,
     } = useQuery<VitalData[], Error>({
         queryKey: [vital],
-        queryFn: () => fetchVitalsData(),
+        queryFn: () => fetchVitalsData(vital),
     });
     const { data: vitalData } = useQuery({
         queryKey: ["Axis"],
