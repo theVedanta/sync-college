@@ -62,7 +62,7 @@ const fetchVitalsData = async (vital: string): Promise<VitalData[]> => {
 };
 
 const Vitals = ({ params }: { params: { vital: string } }) => {
-    const vital = params.vital;
+    const vital = decodeURIComponent(params.vital);
     const {
         data: vitalsData,
         isLoading,
