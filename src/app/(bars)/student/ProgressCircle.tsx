@@ -1,6 +1,6 @@
 interface ProgressCircleProps {
     value: number;
-    color: string;
+    color: "green" | "yellow" | "red"; // Updated to match the new color scheme
 }
 
 const ProgressCircle: React.FC<ProgressCircleProps> = ({ value, color }) => {
@@ -29,12 +29,10 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({ value, color }) => {
                 <circle
                     className={`transition-all duration-300 ease-in-out ${
                         color === "red"
-                            ? "stroke-red-500"
-                            : color === "orange"
-                              ? "stroke-orange-500"
-                              : color === "green"
-                                ? "stroke-green-500"
-                                : "stroke-blue-500"
+                            ? "stroke-rose-500"
+                            : color === "yellow"
+                              ? "stroke-amber-500"
+                              : "stroke-emerald-500"
                     }`}
                     strokeWidth="8"
                     strokeLinecap="round"

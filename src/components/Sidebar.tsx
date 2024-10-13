@@ -6,15 +6,21 @@ import { NAV_HEIGHT } from "@/lib/constants";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { Blocks } from "lucide-react";
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const iconClassName = "w-6 h-6";
     const sidebarItems = [
         {
+            icon: <Blocks className={iconClassName} />,
+            text: "Dashboard",
+            link: "/",
+        },
+        {
             icon: <PersonIcon className={iconClassName} />,
             text: "Students",
-            link: "/",
+            link: "/students",
         },
     ];
 

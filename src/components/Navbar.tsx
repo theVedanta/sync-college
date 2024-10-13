@@ -2,8 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { ChevronDown, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,14 +33,14 @@ const Navbar = () => {
                 />
             </div>
             <div className="flex items-center space-x-4">
-                <div className="relative">
+                {/* <div className="relative">
                     <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                     <Input
                         type="text"
                         placeholder="Search"
                         className="w-56 border-none pl-10 text-xl"
                     />
-                </div>
+                </div> */}
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

@@ -8,6 +8,9 @@ const generateFakeUsers = (count: number) => {
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
         },
+        image: faker.image.avatar(),
+        gender: faker.datatype.boolean() ? "Male" : "Female",
+        age: faker.number.int({ min: 18, max: 30 }),
     }));
 };
 

@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ChevronRight, Dot, Info, Mail } from "lucide-react";
+import { Calendar, Info, Mail } from "lucide-react";
 import { CustomIcon } from "@/components/CustomIcon";
 import ProgressCircle from "./ProgressCircle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,16 +20,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Suspense } from "react";
 import { faker } from "@faker-js/faker";
 import { useState, useEffect } from "react";
+import { GenRand } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 const RecommendationsContent = () => {
     const searchParams = useSearchParams();
     const userEmail = searchParams.get("email") || "vedanta1412@gmail.com";
 
-    const [user, setUser] = useState<{ email: string; name: string } | null>(
-        null
-    );
+    const [user, setUser] = useState<{
+        email: string;
+        name: string;
+        image: string;
+    } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<null | Error>(null);
+    const healthStatus = GenRand(100);
 
     useEffect(() => {
         const generateFakeUser = (email: string) => {
@@ -43,6 +48,7 @@ const RecommendationsContent = () => {
             return {
                 email: email,
                 name: faker.person.fullName(),
+                image: faker.image.avatar(),
             };
         };
 
@@ -93,9 +99,13 @@ const RecommendationsContent = () => {
                         <div className="mb-8 flex space-x-8">
                             <Card className="flex-grow">
                                 <CardContent className="flex h-full items-center justify-between p-8">
-                                    <div className="relative aspect-square h-full">
+                                    <div className="relative h-32 w-32">
                                         <Avatar className="h-full w-full">
-                                            <AvatarImage alt={user.name} />
+                                            <AvatarImage
+                                                alt={user.name}
+                                                src={user.image}
+                                                className="object-cover"
+                                            />
                                             <AvatarFallback className="text-2xl">
                                                 {user.name
                                                     .split(" ")
@@ -121,19 +131,45 @@ const RecommendationsContent = () => {
                                         <p className="text-gray-600">
                                             Student ID: {studentId}
                                         </p>
-                                        <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-gray-600 sm:text-lg">
-                                            <span>♂ Male</span>
-                                            <Dot className="hidden sm:inline" />
-                                            <span>142 Kg</span>
-                                            <Dot className="hidden sm:inline" />
-                                            <span>180 cm</span>
-                                            <Dot className="hidden sm:inline" />
+                                        <div className="mt-6 flex flex-wrap items-center gap-2 text-sm sm:text-lg">
+                                            <Badge
+                                                variant="outline"
+                                                className="border-blu bg-blue-100 text-blu"
+                                            >
+                                                {Math.random() > 0.5
+                                                    ? "♂ Male"
+                                                    : "♀ Female"}
+                                            </Badge>
+
+                                            <Badge
+                                                variant="outline"
+                                                className="border-blu bg-blue-100 text-blu"
+                                            >
+                                                {Math.floor(
+                                                    Math.random() * 100
+                                                ) + 50}{" "}
+                                                Kg
+                                            </Badge>
+
+                                            <Badge
+                                                variant="outline"
+                                                className="border-blu bg-blue-100 text-blu"
+                                            >
+                                                {Math.floor(
+                                                    Math.random() * 50
+                                                ) + 150}{" "}
+                                                cm
+                                            </Badge>
+
                                             <TooltipProvider>
                                                 <Tooltip delayDuration={0}>
                                                     <TooltipTrigger>
-                                                        <span className="cursor-help">
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="cursor-help border-blu bg-blue-100 text-blu"
+                                                        >
                                                             No allergies
-                                                        </span>
+                                                        </Badge>
                                                     </TooltipTrigger>
                                                     <TooltipContent>
                                                         <p>
@@ -145,15 +181,6 @@ const RecommendationsContent = () => {
                                             </TooltipProvider>
                                         </div>
                                     </div>
-
-                                    <div className="h-full">
-                                        <Button className="ml-auto">
-                                            View full profile{" "}
-                                            <CustomIcon>
-                                                <ChevronRight />
-                                            </CustomIcon>
-                                        </Button>
-                                    </div>
                                 </CardContent>
                             </Card>
 
@@ -164,25 +191,14 @@ const RecommendationsContent = () => {
                                             Overall health score
                                         </h3>
                                         <p className="mb-4">
-                                            Ishaan&apos;s health is in average
-                                            condition.
+                                            {user.name}&apos;s health is{" "}
+                                            {healthStatus.text}.
                                         </p>
-                                        <div className="flex items-center justify-between">
-                                            <Button
-                                                variant="link"
-                                                className="flex items-center p-0 text-lg text-white"
-                                            >
-                                                Learn more{" "}
-                                                <CustomIcon>
-                                                    <ChevronRight />
-                                                </CustomIcon>
-                                            </Button>
-                                        </div>
                                     </div>
 
                                     <ProgressCircle
-                                        value={Math.ceil(Math.random() * 100)}
-                                        color="orange"
+                                        value={healthStatus.result}
+                                        color={healthStatus.color}
                                     />
                                 </CardContent>
                             </Card>
@@ -191,7 +207,7 @@ const RecommendationsContent = () => {
                         <div className="mb-8 mt-16 flex items-center justify-between">
                             <div className="flex items-center space-x-4">
                                 <h2 className="text-2xl font-bold text-darkblu">
-                                    Ishaan&apos;s vitals
+                                    {user.name}&apos;s vitals
                                 </h2>
                                 <p className="flex items-center text-gray-500">
                                     <CustomIcon>
@@ -216,11 +232,14 @@ const RecommendationsContent = () => {
                                     value < 33
                                         ? "red"
                                         : value < 66
-                                          ? "orange"
+                                          ? "yellow"
                                           : "green";
 
                                 return (
-                                    <Link key={i} href={`/vitals/${title}`}>
+                                    <Link
+                                        key={i}
+                                        href={`/vitals/${title}?name=${encodeURIComponent(user.name)}`}
+                                    >
                                         <Card className="h-full cursor-pointer transition-all hover:shadow-xl">
                                             <CardContent className="p-6">
                                                 <h3 className="mb-8 flex w-full items-center justify-center text-lg font-semibold text-muted-foreground">
@@ -251,17 +270,17 @@ const RecommendationsContent = () => {
 
                                                 <p
                                                     className={`mt-4 text-center font-semibold ${
-                                                        color === "orange"
-                                                            ? "text-orange-500"
+                                                        color === "yellow"
+                                                            ? "text-amber-500"
                                                             : color === "red"
-                                                              ? "text-red-500"
-                                                              : "text-green-500"
+                                                              ? "text-rose-500"
+                                                              : "text-emerald-500"
                                                     }`}
                                                 >
                                                     {title} levels are{" "}
                                                     {color === "green"
                                                         ? "optimal"
-                                                        : color === "orange"
+                                                        : color === "yellow"
                                                           ? "moderate"
                                                           : "concerning"}
                                                     .

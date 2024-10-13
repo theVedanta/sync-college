@@ -6,6 +6,8 @@ import VitalsCard from "../VitalsCard";
 import Loading from "@/components/Loading";
 import { Card, CardContent } from "@/components/ui/card";
 import ProgressCircle from "../../student/ProgressCircle";
+import { GenRand } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 interface ReportItem {
     name: string;
@@ -62,6 +64,9 @@ const fetchVitalsData = async (vital: string): Promise<VitalData[]> => {
 };
 
 const Vitals = ({ params }: { params: { vital: string } }) => {
+    const searchParams = useSearchParams();
+    const name = searchParams.get("name") || "John Doe";
+
     const vital = decodeURIComponent(params.vital);
     const {
         data: vitalsData,
@@ -87,8 +92,7 @@ const Vitals = ({ params }: { params: { vital: string } }) => {
         },
     });
 
-    const value = Math.floor(Math.random() * 100);
-    const color = value < 33 ? "red" : value < 66 ? "orange" : "green";
+    const student = GenRand(100);
 
     if (isLoading) return <Loading />;
     if (error) return <div>An error occurred: {error.message}</div>;
@@ -98,7 +102,7 @@ const Vitals = ({ params }: { params: { vital: string } }) => {
             <ExportBreadcrumb
                 breadcrumbs={{
                     People: "/",
-                    "John Doe": "/student",
+                    [name]: "#",
                     [vital]: `/student/vitals/${vital}`,
                 }}
             />
@@ -106,13 +110,18 @@ const Vitals = ({ params }: { params: { vital: string } }) => {
             <Card className="w-full">
                 <CardContent className="flex items-center justify-start !p-10">
                     <div className="flex-grow">
-                        <ProgressCircle value={value} color={color} />
+                        <ProgressCircle
+                            value={student.result}
+                            color={student.color}
+                        />
                     </div>
 
                     <div className="ml-10">
                         <h2 className="text-2xl font-bold">{vital}</h2>
-                        <h4 className="text-xl font-semibold text-orange-500">
-                            Ishaan&apos; levels are optimal.
+                        <h4
+                            className={`text-xl font-semibold ${student.color === "green" ? "text-emerald-500" : student.color === "yellow" ? "text-amber-500" : "text-rose-500"}`}
+                        >
+                            {name}&apos;s levels are {student.text}.
                         </h4>
 
                         <p className="mt-4 text-gray-600">

@@ -26,22 +26,22 @@ const ExportBreadcrumb = ({ breadcrumbs }: ExportBreadcrumbProps) => (
                             {index ===
                             Object.entries(breadcrumbs).length - 1 ? (
                                 <BreadcrumbPage
-                                    className={
+                                    className={`text-base ${
                                         index === 0
                                             ? "font-bold text-blu"
                                             : "text-gray-500"
-                                    }
+                                    }`}
                                 >
                                     {title}
                                 </BreadcrumbPage>
                             ) : (
                                 <BreadcrumbLink
                                     href={href}
-                                    className={
+                                    className={`text-base ${
                                         index === 0
                                             ? "font-bold text-blu"
                                             : "text-gray-500"
-                                    }
+                                    }`}
                                 >
                                     {title}
                                 </BreadcrumbLink>
