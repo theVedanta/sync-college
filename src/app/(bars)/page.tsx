@@ -24,42 +24,85 @@ import {
 } from "recharts";
 import { Button } from "@/components/ui/button";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { useState } from "react";
 
 const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 90, fill: "var(--color-other)" },
+    { tag: "Healthy", count: 605, fill: "hsl(var(--chart-2))" },
+    { tag: "Moderate", count: 342, fill: "hsl(var(--chart-4))" },
+    { tag: "Unhealthy", count: 231, fill: "hsl(var(--chart-5))" },
+    { tag: "Critical", count: 81, fill: "hsl(var(--chart-1))" },
 ];
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
-    chrome: {
-        label: "Chrome",
-        color: "hsl(var(--chart-1))",
-    },
-    safari: {
-        label: "Safari",
+    healthy: {
+        label: "Healthy",
         color: "hsl(var(--chart-2))",
     },
-    firefox: {
-        label: "Firefox",
-        color: "hsl(var(--chart-3))",
-    },
-    edge: {
-        label: "Edge",
+    moderate: {
+        label: "Moderately Healthy",
         color: "hsl(var(--chart-4))",
     },
-    other: {
-        label: "Other",
+    unhealthy: {
+        label: "Unhealthy",
         color: "hsl(var(--chart-5))",
+    },
+    critical: {
+        label: "Critical",
+        color: "hsl(var(--chart-1))",
     },
 } satisfies ChartConfig;
 
 export default function Home() {
+    const [timeFrame, setTimeFrame] = useState<
+        "Yearly" | "Monthly" | "Quarterly"
+    >("Yearly");
+    const [activeIndex, setActiveIndex] = useState<number | undefined>(
+        undefined
+    ); // Added state for active index
+    const currentMonthIndex = new Date().getMonth();
+    const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+    const getYearlyData = () => {
+        const storedData = localStorage.getItem("yearlyData");
+        if (storedData) {
+            return JSON.parse(storedData);
+        }
+        const newData = months.slice(0, currentMonthIndex + 1).map((month) => ({
+            month: month,
+            percentage: Math.floor(Math.random() * 30) + 60, // Random value between 70 and 79
+        }));
+        localStorage.setItem("yearlyData", JSON.stringify(newData));
+        return newData;
+    };
+
+    const lineChartData = {
+        Yearly: getYearlyData(),
+        Monthly: [
+            { month: "Week 1", percentage: 65 },
+            { month: "Week 2", percentage: 85 },
+            { month: "Week 3", percentage: 75 },
+            { month: "Week 4", percentage: 90 },
+        ],
+        Quarterly: [
+            { month: "Q1", percentage: 40 },
+            { month: "Q2", percentage: 65 },
+            { month: "Q3", percentage: 80 },
+            { month: "Q4", percentage: 70 },
+        ],
+    };
+
     return (
         <>
             <ExportBreadcrumb
@@ -90,25 +133,72 @@ export default function Home() {
                     </Button>
                 </div>
                 <div className="flex space-x-1 rounded-lg border bg-white p-1">
-                    <Button className="bg-blu text-white">Yearly</Button>
-                    <Button variant="ghost" className="text-gray-700">
+                    <Button
+                        className={
+                            timeFrame === "Yearly"
+                                ? "bg-blu text-white"
+                                : "text-gray-700"
+                        }
+                        variant="ghost"
+                        onClick={() => setTimeFrame("Yearly")}
+                    >
+                        Yearly
+                    </Button>
+                    <Button
+                        className={
+                            timeFrame === "Monthly"
+                                ? "bg-blu text-white"
+                                : "text-gray-700"
+                        }
+                        variant="ghost"
+                        onClick={() => setTimeFrame("Monthly")}
+                    >
                         Monthly
                     </Button>
-                    <Button variant="ghost" className="text-gray-700">
+                    <Button
+                        className={
+                            timeFrame === "Quarterly"
+                                ? "bg-blu text-white"
+                                : "text-gray-700"
+                        }
+                        variant="ghost"
+                        onClick={() => setTimeFrame("Quarterly")}
+                    >
                         Quarterly
                     </Button>
                 </div>
             </div>
 
             <div className="grid grid-cols-4 gap-6">
-                {[1, 2, 3, 4].map((i) => (
+                {[
+                    {
+                        title: "Total students marked healthy",
+                        count: 605,
+                        change: "+131 since last academic year",
+                    },
+                    {
+                        title: "Mental health counselling sessions",
+                        count: 342,
+                        change: "+12 since last academic year",
+                    },
+                    {
+                        title: "Total app sessions by students",
+                        count: 231,
+                        change: "+24 since last academic year",
+                    },
+                    {
+                        title: "Total students marked critical",
+                        count: 21,
+                        change: "-11 since last month",
+                    },
+                ].map((item, i) => (
                     <Card key={i} className="rounded-lg bg-white p-6">
                         <CardTitle className="text-lg font-medium">
-                            Total students marked healthy
+                            {item.title}
                         </CardTitle>
-                        <p className="mt-6 text-2xl font-bold">4200</p>
+                        <p className="mt-6 text-2xl font-bold">{item.count}</p>
                         <p className="text-sm font-medium text-emerald-600">
-                            +201 since last month
+                            {item.change}
                         </p>
                     </Card>
                 ))}
@@ -137,10 +227,16 @@ export default function Home() {
                                 />
                                 <Pie
                                     data={chartData}
-                                    dataKey="visitors"
-                                    nameKey="browser"
+                                    dataKey="count"
+                                    nameKey="tag"
                                     innerRadius={90}
-                                    activeIndex={0}
+                                    activeIndex={activeIndex} // Use activeIndex state
+                                    onMouseEnter={(data, index) => {
+                                        setActiveIndex(index); // Highlight the active index on hover
+                                    }}
+                                    onMouseLeave={() => {
+                                        setActiveIndex(undefined); // Reset the active index when not hovering
+                                    }}
                                     activeShape={({
                                         outerRadius = 0,
                                         ...props
@@ -153,9 +249,7 @@ export default function Home() {
                                 />
 
                                 <ChartLegend
-                                    content={
-                                        <ChartLegendContent nameKey="browser" />
-                                    }
+                                    content={<ChartLegendContent />}
                                     className="gap-4"
                                 />
                             </PieChart>
@@ -183,14 +277,7 @@ export default function Home() {
                             className="h-[30vh] w-full"
                         >
                             <LineChart
-                                data={[
-                                    { month: "Jan", score: 20 },
-                                    { month: "Feb", score: 30 },
-                                    { month: "Mar", score: 25 },
-                                    { month: "Apr", score: 35 },
-                                    { month: "May", score: 40 },
-                                    { month: "Jun", score: 30 },
-                                ]}
+                                data={lineChartData[timeFrame]}
                                 className="w-full"
                             >
                                 <CartesianGrid
@@ -199,10 +286,13 @@ export default function Home() {
                                     vertical={false}
                                 />
                                 <XAxis dataKey="month" />
-                                <YAxis />
+                                <YAxis
+                                    domain={[0, 100]}
+                                    tickFormatter={(tick) => `${tick}%`}
+                                />
                                 <Tooltip />
                                 <Line
-                                    dataKey="score"
+                                    dataKey="percentage"
                                     strokeWidth={2}
                                     stroke="#059669"
                                 />
@@ -210,7 +300,7 @@ export default function Home() {
                         </ChartContainer>
 
                         <p className="mt-4 flex items-center text-sm font-medium text-emerald-600">
-                            42% improvement from last month
+                            11% improvement from last month
                             <TrendingUp className="ml-2" />
                         </p>
                     </Card>

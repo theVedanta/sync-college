@@ -69,6 +69,69 @@ const RecommendationsContent = () => {
 
     const studentId = `S-${Math.floor(100000 + Math.random() * 900000)}`;
 
+    const randomBadges = [
+        <Badge
+            key="thyroid"
+            variant="outline"
+            className="border-rose-600 bg-rose-100 text-rose-600"
+        >
+            Thyroid
+        </Badge>,
+        <Badge
+            key="cortisol"
+            variant="outline"
+            className="border-rose-600 bg-rose-100 text-rose-600"
+        >
+            Cortisol
+        </Badge>,
+        <Badge
+            key="high-crp"
+            variant="outline"
+            className="border-amber-600 bg-amber-100 text-amber-600"
+        >
+            High CRP
+        </Badge>,
+        <Badge
+            key="pcos"
+            variant="outline"
+            className="border-amber-600 bg-amber-100 text-amber-600"
+        >
+            PCOS
+        </Badge>,
+        <Badge
+            key="prediabetes"
+            variant="outline"
+            className="border-amber-600 bg-amber-100 text-amber-600"
+        >
+            Prediabetes
+        </Badge>,
+        <Badge
+            key="triglyceride"
+            variant="outline"
+            className="border-emerald-600 bg-emerald-100 text-emerald-600"
+        >
+            Triglyceride
+        </Badge>,
+        <Badge
+            key="ldl"
+            variant="outline"
+            className="border-emerald-600 bg-emerald-100 text-emerald-600"
+        >
+            LDL
+        </Badge>,
+    ];
+
+    // Select three random badges
+    const selectedBadges = [];
+    const badgeIndices = new Set();
+    while (selectedBadges.length < 3) {
+        const randomIndex = Math.floor(Math.random() * randomBadges.length);
+        if (!badgeIndices.has(randomIndex)) {
+            badgeIndices.add(randomIndex);
+            selectedBadges.push(randomBadges[randomIndex]);
+        }
+    }
+
     return (
         <>
             <ExportBreadcrumb
@@ -151,16 +214,6 @@ const RecommendationsContent = () => {
                                                 Kg
                                             </Badge>
 
-                                            <Badge
-                                                variant="outline"
-                                                className="border-blu bg-blue-100 text-blu"
-                                            >
-                                                {Math.floor(
-                                                    Math.random() * 50
-                                                ) + 150}{" "}
-                                                cm
-                                            </Badge>
-
                                             <TooltipProvider>
                                                 <Tooltip delayDuration={0}>
                                                     <TooltipTrigger>
@@ -179,6 +232,8 @@ const RecommendationsContent = () => {
                                                     </TooltipContent>
                                                 </Tooltip>
                                             </TooltipProvider>
+
+                                            {selectedBadges}
                                         </div>
                                     </div>
                                 </CardContent>
