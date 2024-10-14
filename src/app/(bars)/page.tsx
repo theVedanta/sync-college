@@ -75,15 +75,11 @@ export default function Home() {
         "Dec",
     ];
     const getYearlyData = () => {
-        const storedData = localStorage.getItem("yearlyData");
-        if (storedData) {
-            return JSON.parse(storedData);
-        }
         const newData = months.slice(0, currentMonthIndex + 1).map((month) => ({
             month: month,
-            percentage: Math.floor(Math.random() * 30) + 60, // Random value between 70 and 79
+            percentage: Math.floor(Math.random() * 30) + 60,
         }));
-        localStorage.setItem("yearlyData", JSON.stringify(newData));
+
         return newData;
     };
 
